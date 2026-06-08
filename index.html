@@ -533,6 +533,7 @@
                 <div class="category" id="typeCategory">
                     <button class="active" data-filter-type="type" data-value="all">全部</button>
                     <button data-filter-type="type" data-value="vegetarian">🥬 素菜</button>
+                    <button data-filter-type="type" data-value="staple">🍚 主食/粥</button>
                     <button data-filter-type="type" data-value="drink">🥤 饮品</button>
                     <button data-filter-type="type" data-value="fruit">🍎 水果</button>
                     <button data-filter-type="type" data-value="meat">🍖 荤菜</button>
@@ -747,7 +748,8 @@
             // 用户指定优先分类（优先级最高）
             if(/全麦面包\+牛奶|水煮蛋|蒸鸡蛋羹/.test(title)) return 'vegetarian';
             if(/猕猴桃酸奶|香蕉奶昔/.test(title)) return 'drink';
-
+            // 判断主食/粥
+            if(/粥|馄饨|面条|饭|三明治/.test(title)) return 'staple';
             // 先判断水果，避免“猕猴桃酸奶”被优先识别成饮品
             if(/苹果|猕猴桃|香蕉|水果/.test(text)) return 'fruit';
             if(/豆浆|牛奶|奶昔|饮|水|酸奶|蜂蜜水/.test(text)) return 'drink';
@@ -819,6 +821,8 @@
                 let matchType = true;
                 if(currentFilters.type === 'vegetarian') {
                     matchType = item.vegetarian && getVegType(item) === 'vegetarian';
+                } else if(currentFilters.type === 'staple') {
+                    matchType = item.vegetarian && getVegType(item) === 'staple';
                 } else if(currentFilters.type === 'drink') {
                     matchType = item.vegetarian && getVegType(item) === 'drink';
                 } else if(currentFilters.type === 'fruit') {
@@ -834,7 +838,7 @@
                 const card = document.createElement('div');
                 card.className = 'recipe-card';
                 const vegType = getVegType(item);
-                const typeLabel = item.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜';
+                const typeLabel = item.vegetarian ? (vegType === 'staple' ? '🍚 主食/粥' : (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜'))) : '🍖 荤菜';
                 const meatSourceTag = !item.vegetarian ? `<span class="recipe-tag">${meatSourceNames[getMeatSource(item)]}</span>` : '';
                 card.innerHTML = `<img src="${item.image}" alt="${item.title}" class="recipe-image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="img-placeholder">🍽️</div><div class="recipe-info"><div class="recipe-title">${item.title}</div><span class="recipe-tag">${item.typeName}</span><span class="recipe-tag">${typeLabel}</span>${meatSourceTag}<span class="recipe-tag">${item.tag}</span></div>`;
                 card.onclick = () => openModal(item);
@@ -850,7 +854,7 @@
             document.getElementById('modalTitle').innerText = recipe.title;
             document.getElementById('modalType').innerText = recipe.typeName;
             const vegType = getVegType(recipe);
-            const typeLabel = recipe.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜';
+            const typeLabel = recipe.vegetarian ? (vegType === 'staple' ? '🍚 主食/粥' : (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜'))) : '🍖 荤菜';
             const meatSourceText = recipe.vegetarian ? '' : `（${meatSourceNames[getMeatSource(recipe)]}）`;
             document.getElementById('modalCategory').innerText = `${typeLabel}${meatSourceText}`;
             document.getElementById('modalMeal').innerText = recipe.mealName;
