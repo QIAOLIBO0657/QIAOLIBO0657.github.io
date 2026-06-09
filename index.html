@@ -625,6 +625,7 @@
         <div class="tab-item" data-page="mine"><i>👤</i><span>我的</span></div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const recipeData = [
             {id:1,title:"红枣小米粥",image:"images/1.png",type:"early",typeName:"孕早期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"缓解孕吐",ingredients:[{name:"小米",amount:"50g"},{name:"红枣",amount:"3颗"},{name:"冰糖",amount:"少许"}],desc:"健脾养胃、缓解孕吐，食材简单，营养温和，非常适合孕早期食欲不振的孕妈。做法：小米洗净熬煮30分钟，加入红枣再煮10分钟即可。"},
@@ -703,18 +704,86 @@
         const daySelector = document.getElementById('daySelector');
         const mealSelector = document.getElementById('mealSelector');
         const clearAllBtn = document.getElementById('clearAllBtn');
+
+        // Cloud sync config (fill these values after creating a Supabase project)
+        const SUPABASE_URL = '';
+        const SUPABASE_ANON_KEY = '';
+        // All devices share the same record when cloud sync is enabled
+        const GLOBAL_SYNC_KEY = 'global';
+
+        function getDefaultWeeklyPlan() {
+            return {
+                1: {breakfast: [], lunch: [], dinner: [], snack: []},
+                2: {breakfast: [], lunch: [], dinner: [], snack: []},
+                3: {breakfast: [], lunch: [], dinner: [], snack: []},
+                4: {breakfast: [], lunch: [], dinner: [], snack: []},
+                5: {breakfast: [], lunch: [], dinner: [], snack: []}
+            };
+        }
+
+        const storageLayer = {
+            mode: 'local',
+            supabaseClient: null,
+            async init() {
+                if(!SUPABASE_URL || !SUPABASE_ANON_KEY || !window.supabase || !window.supabase.createClient) return;
+                try {
+                    this.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    this.mode = 'supabase';
+                } catch (err) {
+                    console.error('Supabase 初始化失败，已回退本地存储', err);
+                    this.mode = 'local';
+                }
+            },
+            async loadData() {
+                const localData = {
+                    collectList: JSON.parse(localStorage.getItem('pregnancyCollect')) || [],
+                    weeklyPlanData: JSON.parse(localStorage.getItem('pregnancyWeeklyPlan')) || getDefaultWeeklyPlan()
+                };
+
+                if(this.mode !== 'supabase' || !this.supabaseClient) return localData;
+
+                const { data, error } = await this.supabaseClient
+                    .from('pregnancy_user_data')
+                    .select('collect_list,weekly_plan_data')
+                    .eq('sync_key', GLOBAL_SYNC_KEY)
+                    .maybeSingle();
+
+                if(error) {
+                    console.error('读取云端数据失败，使用本地数据', error);
+                    return localData;
+                }
+
+                const collectList = data?.collect_list || localData.collectList;
+                const weeklyPlanData = data?.weekly_plan_data || localData.weeklyPlanData;
+                localStorage.setItem('pregnancyCollect', JSON.stringify(collectList));
+                localStorage.setItem('pregnancyWeeklyPlan', JSON.stringify(weeklyPlanData));
+                return { collectList, weeklyPlanData };
+            },
+            async saveCollectList(collectList) {
+                localStorage.setItem('pregnancyCollect', JSON.stringify(collectList));
+                if(this.mode !== 'supabase' || !this.supabaseClient) return;
+                await this.upsertData({ collect_list: collectList });
+            },
+            async saveWeeklyPlanData(weeklyPlanData) {
+                localStorage.setItem('pregnancyWeeklyPlan', JSON.stringify(weeklyPlanData));
+                if(this.mode !== 'supabase' || !this.supabaseClient) return;
+                await this.upsertData({ weekly_plan_data: weeklyPlanData });
+            },
+            async upsertData(partialData) {
+                const { error } = await this.supabaseClient
+                    .from('pregnancy_user_data')
+                    .upsert({ sync_key: GLOBAL_SYNC_KEY, ...partialData }, { onConflict: 'sync_key' });
+                if(error) {
+                    console.error('同步云端失败，已保留本地数据', error);
+                }
+            }
+        };
         
         let currentRecipe = null;
         let selectedDay = 1;
         let selectedMeal = "breakfast";
         let collectList = JSON.parse(localStorage.getItem('pregnancyCollect')) || [];
-        let weeklyPlanData = JSON.parse(localStorage.getItem('pregnancyWeeklyPlan')) || {
-            1: {breakfast: [], lunch: [], dinner: [], snack: []},
-            2: {breakfast: [], lunch: [], dinner: [], snack: []},
-            3: {breakfast: [], lunch: [], dinner: [], snack: []},
-            4: {breakfast: [], lunch: [], dinner: [], snack: []},
-            5: {breakfast: [], lunch: [], dinner: [], snack: []}
-        };
+        let weeklyPlanData = JSON.parse(localStorage.getItem('pregnancyWeeklyPlan')) || getDefaultWeeklyPlan();
 
         let currentFilters = {
             period: 'all',
@@ -773,7 +842,11 @@
             return 'other';
         }
 
-        function init() {
+        async function init() {
+            await storageLayer.init();
+            const syncedData = await storageLayer.loadData();
+            collectList = syncedData.collectList;
+            weeklyPlanData = syncedData.weeklyPlanData;
             renderRecipes();
             updateOrderBadge();
             renderWeeklyPlan();
@@ -884,14 +957,14 @@
                 collectBtn.innerText = '已收藏';
                 alert('收藏成功');
             }
-            localStorage.setItem('pregnancyCollect', JSON.stringify(collectList));
+            storageLayer.saveCollectList(collectList);
         };
 
         addOrderBtn.onclick = () => {
             const alreadyAdded = weeklyPlanData[selectedDay][selectedMeal].some(item => item.id === currentRecipe.id);
             if(alreadyAdded) {alert(`这道菜已经添加到${days[selectedDay-1]}${mealNames[selectedMeal]}啦~`);return;}
             weeklyPlanData[selectedDay][selectedMeal].push(currentRecipe);
-            localStorage.setItem('pregnancyWeeklyPlan', JSON.stringify(weeklyPlanData));
+            storageLayer.saveWeeklyPlanData(weeklyPlanData);
             updateOrderBadge();
             renderWeeklyPlan();
             alert(`已成功添加到${days[selectedDay-1]}${mealNames[selectedMeal]}！`);
@@ -962,7 +1035,7 @@
                 btn.onclick=(e)=>{
                     const day=parseInt(e.target.dataset.day);const meal=e.target.dataset.meal;const id=parseInt(e.target.dataset.id);
                     weeklyPlanData[day][meal]=weeklyPlanData[day][meal].filter(item=>item.id!==id);
-                    localStorage.setItem('pregnancyWeeklyPlan',JSON.stringify(weeklyPlanData));
+                    storageLayer.saveWeeklyPlanData(weeklyPlanData);
                     updateOrderBadge();renderWeeklyPlan();
                 };
             });
@@ -991,7 +1064,7 @@
             renderRecipes(filterType, filterValue);
         };});
         tabItems.forEach(tab=>{tab.onclick=()=>{tabItems.forEach(t=>t.classList.remove('active'));tab.classList.add('active');const page=tab.dataset.page;recipePage.style.display=page==='recipe'?'block':'none';orderPage.style.display=page==='order'?'block':'none';minePage.style.display=page==='mine'?'block':'none';};});
-        clearAllBtn.onclick=()=>{if(confirm('确定要清空本周所有计划吗？此操作不可恢复！')){weeklyPlanData={1:{breakfast:[],lunch:[],dinner:[],snack:[]},2:{breakfast:[],lunch:[],dinner:[],snack:[]},3:{breakfast:[],lunch:[],dinner:[],snack:[]},4:{breakfast:[],lunch:[],dinner:[],snack:[]},5:{breakfast:[],lunch:[],dinner:[],snack:[]}};localStorage.setItem('pregnancyWeeklyPlan',JSON.stringify(weeklyPlanData));updateOrderBadge();renderWeeklyPlan();alert('本周计划已清空！');}};
+        clearAllBtn.onclick=()=>{if(confirm('确定要清空本周所有计划吗？此操作不可恢复！')){weeklyPlanData=getDefaultWeeklyPlan();storageLayer.saveWeeklyPlanData(weeklyPlanData);updateOrderBadge();renderWeeklyPlan();alert('本周计划已清空！');}};
         init();
     </script>
 </body>
