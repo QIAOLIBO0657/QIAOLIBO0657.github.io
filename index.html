@@ -546,14 +546,14 @@
                 <div class="filter-label">🍴 菜系分类</div>
                 <div class="category" id="typeCategory">
                     <button class="active" data-filter-type="type" data-value="all">全部</button>
-                    <button data-filter-type="type" data-value="vegetarian">🥬 素菜</button>
-                    <button data-filter-type="type" data-value="staple">🍚 主食/粥</button>
-                    <button data-filter-type="type" data-value="drink">🥤 饮品</button>
-                    <button data-filter-type="type" data-value="fruit">🍎 水果</button>
-                    <button data-filter-type="type" data-value="meat">🍖 荤菜</button>
+                    <button data-filter-type="type" data-value="vegetarian">素菜</button>
+                    <button data-filter-type="type" data-value="staple">主食/粥</button>
+                    <button data-filter-type="type" data-value="drink">饮品</button>
+                    <button data-filter-type="type" data-value="fruit">水果</button>
+                    <button data-filter-type="type" data-value="meat">荤菜</button>
                 </div>
             </div>
-            <div class="filter-section">
+            <div class="filter-section" id="meatSourceSection" style="display:none;">
                 <div class="filter-label">🥩 荤菜食材</div>
                 <div class="category" id="meatSourceCategory">
                     <button class="active" data-filter-type="meatSource" data-value="all">全部</button>
@@ -920,12 +920,18 @@
                     const meatBtn = document.querySelector('#typeCategory button[data-value="meat"]');
                     if(meatBtn) meatBtn.classList.add('active');
                 }
-                if(filterType === 'type' && filterValue !== 'meat') {
-                    currentFilters.meatSource = 'all';
-                    const meatSourceButtons = document.querySelectorAll('#meatSourceCategory button');
-                    meatSourceButtons.forEach(btn => btn.classList.remove('active'));
-                    const allBtn = document.querySelector('#meatSourceCategory button[data-value="all"]');
-                    if(allBtn) allBtn.classList.add('active');
+                if(filterType === 'type') {
+                    const meatSourceSection = document.getElementById('meatSourceSection');
+                    if(filterValue === 'meat') {
+                        meatSourceSection.style.display = '';
+                    } else {
+                        meatSourceSection.style.display = 'none';
+                        currentFilters.meatSource = 'all';
+                        const meatSourceButtons = document.querySelectorAll('#meatSourceCategory button');
+                        meatSourceButtons.forEach(btn => btn.classList.remove('active'));
+                        const allBtn = document.querySelector('#meatSourceCategory button[data-value="all"]');
+                        if(allBtn) allBtn.classList.add('active');
+                    }
                 }
             }
             recipeList.innerHTML = '';
