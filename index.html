@@ -494,6 +494,13 @@
             opacity: 0;
         }
 
+        .order-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
         .clear-all-btn {
             background: #ff4081;
             color: white;
@@ -501,8 +508,15 @@
             padding: 8px 15px;
             border-radius: 15px;
             cursor: pointer;
-            margin-bottom: 15px;
-            float: right;
+        }
+
+        .notify-wechat-btn {
+            background: #07c160;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
         }
         .img-placeholder,.modal-placeholder{display:none;width:100%;background:#fce4ec;align-items:center;justify-content:center;color:#d81b60;font-size:40px}
         .img-placeholder{height:96px}
@@ -567,7 +581,10 @@
     </div>
 
     <div class="order-page" id="orderPage">
-        <button class="clear-all-btn" id="clearAllBtn">清空本周计划</button>
+        <div class="order-actions">
+            <button class="notify-wechat-btn" id="notifyWechatBtn">通知微信</button>
+            <button class="clear-all-btn" id="clearAllBtn">清空本周计划</button>
+        </div>
         <div id="weeklyPlan"></div>
         <div class="shopping-list" id="shoppingList">
             <h3>📋 本周采购清单（自动汇总）</h3>
@@ -704,12 +721,18 @@
         const daySelector = document.getElementById('daySelector');
         const mealSelector = document.getElementById('mealSelector');
         const clearAllBtn = document.getElementById('clearAllBtn');
+        const notifyWechatBtn = document.getElementById('notifyWechatBtn');
 
         // Cloud sync config (fill these values after creating a Supabase project)
         const SUPABASE_URL = 'https://legzstvxcaycchxbdrjp.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlZ3pzdHZ4Y2F5Y2NoeGJkcmpwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA5NzU4MTAsImV4cCI6MjA5NjU1MTgxMH0.qJeWUC0JROUQ9GMs3q8Nli8dPi7pg455hG7n92fjHJw';
         // All devices share the same record when cloud sync is enabled
         const GLOBAL_SYNC_KEY = 'global';
+        const WECHAT_SENDKEY_STORAGE_KEY = 'wechatSendKey';
+        const WECHAT_SEND_ENDPOINT_PREFIX = 'https://sctapi.ftqq.com';
+        const DEFAULT_SEND_KEY = 'SCT361711TnyyQai8de5DUCavVKsmp5qBp';
+
+        let wechatSendKey = localStorage.getItem(WECHAT_SENDKEY_STORAGE_KEY) || DEFAULT_SEND_KEY;
 
         function getDefaultWeeklyPlan() {
             return {
@@ -1072,6 +1095,74 @@
             }
         }
 
+        function buildWeeklyPlanNotificationText() {
+            const lines = ['孕期本周点单计划'];
+            for(let day=1; day<=5; day++) {
+                const dayData = weeklyPlanData[day];
+                const dayLines = [];
+                meals.forEach(meal => {
+                    const items = dayData[meal] || [];
+                    if(items.length === 0) return;
+                    dayLines.push(`${mealNames[meal]}：${items.map(item => item.title).join('、')}`);
+                });
+                if(dayLines.length > 0) {
+                    lines.push(`\n${days[day-1]}`);
+                    dayLines.forEach(item => lines.push(`- ${item}`));
+                }
+            }
+            if(lines.length === 1) return '本周暂无点单计划';
+            return lines.join('\n');
+        }
+
+        async function copyPlanTextFallback(message) {
+            try {
+                await navigator.clipboard.writeText(message);
+                alert('推送失败，已自动复制周计划文案，可手动粘贴发送到微信');
+            } catch (err) {
+                alert('推送失败，且复制失败，请手动复制周计划内容');
+            }
+        }
+
+        async function notifyWechat() {
+            if(!wechatSendKey) {
+                const input = prompt('请输入 Server酱 SendKey（首次配置后会保存在本机）');
+                if(!input) return;
+                wechatSendKey = input.trim();
+                localStorage.setItem(WECHAT_SENDKEY_STORAGE_KEY, wechatSendKey);
+            }
+
+            const message = buildWeeklyPlanNotificationText();
+            const title = '孩子妈点菜了';
+            const url = `${WECHAT_SEND_ENDPOINT_PREFIX}/${wechatSendKey}.send`;
+            const body = new URLSearchParams({
+                title,
+                desp: message
+            });
+
+            try {
+                notifyWechatBtn.disabled = true;
+                notifyWechatBtn.innerText = '发送中...';
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                    body: body.toString()
+                });
+                const result = await response.json();
+                if(!response.ok || result.code !== 0) {
+                    console.error('[微信通知] 发送失败', result);
+                    await copyPlanTextFallback(message);
+                    return;
+                }
+                alert('已通知到目标微信');
+            } catch (err) {
+                console.error('[微信通知] 发送异常', err);
+                await copyPlanTextFallback(message);
+            } finally {
+                notifyWechatBtn.disabled = false;
+                notifyWechatBtn.innerText = '通知微信';
+            }
+        }
+
         categoryBtns.forEach(btn=>{btn.onclick=()=>{
             const filterType = btn.dataset.filterType;
             const filterValue = btn.dataset.value;
@@ -1081,6 +1172,7 @@
             renderRecipes(filterType, filterValue);
         };});
         tabItems.forEach(tab=>{tab.onclick=()=>{tabItems.forEach(t=>t.classList.remove('active'));tab.classList.add('active');const page=tab.dataset.page;recipePage.style.display=page==='recipe'?'block':'none';orderPage.style.display=page==='order'?'block':'none';minePage.style.display=page==='mine'?'block':'none';};});
+        notifyWechatBtn.onclick = () => notifyWechat();
         clearAllBtn.onclick=()=>{if(confirm('确定要清空本周所有计划吗？此操作不可恢复！')){weeklyPlanData=getDefaultWeeklyPlan();storageLayer.saveWeeklyPlanData(weeklyPlanData);updateOrderBadge();renderWeeklyPlan();alert('本周计划已清空！');}};
         init();
     </script>
