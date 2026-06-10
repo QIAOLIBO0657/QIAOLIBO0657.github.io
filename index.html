@@ -548,6 +548,7 @@
                     <button class="active" data-filter-type="type" data-value="all">全部</button>
                     <button data-filter-type="type" data-value="vegetarian">素菜</button>
                     <button data-filter-type="type" data-value="staple">主食/粥</button>
+                    <button data-filter-type="type" data-value="noodle">面条</button>
                     <button data-filter-type="type" data-value="drink">饮品</button>
                     <button data-filter-type="type" data-value="fruit">水果</button>
                     <button data-filter-type="type" data-value="meat">荤菜</button>
@@ -698,7 +699,52 @@
             {id:51,title:"洋葱牛肉",image:"images/51.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"增强免疫",ingredients:[{name:"牛肉",amount:"150g"},{name:"洋葱",amount:"100g"},{name:"生抽",amount:"少许"}],desc:"洋葱杀菌增强免疫力，牛肉补充蛋白，营养搭配超健康。做法：牛肉切片炒熟，加入洋葱炒软调味。"},
             {id:52,title:"葱炒羊肉",image:"images/52.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:false,tag:"温补暖身",ingredients:[{name:"羊肉片",amount:"150g"},{name:"大葱",amount:"100g"},{name:"姜片",amount:"2片"}],desc:"羊肉温补暖身，大葱去腥提香，清淡版不膻不腻，孕期适量食用。做法：羊肉快速翻炒，加入大葱炒香调味。"},
             {id:53,title:"素炒西蓝花",image:"images/53.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补叶酸",ingredients:[{name:"西蓝花",amount:"200g"},{name:"蒜末",amount:"少许"},{name:"盐",amount:"少许"}],desc:"富含叶酸和维生素，清脆爽口，孕期必备素菜，低脂健康。做法：西蓝花焯水，蒜末爆香翻炒均匀。"},
-            {id:54,title:"热拌青菜",image:"images/54.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:true,tag:"高纤维",ingredients:[{name:"时令青菜",amount:"250g"},{name:"生抽",amount:"少许"},{name:"香油",amount:"少许"}],desc:"清淡热拌，保留青菜营养，高纤维缓解便秘，全孕期适用。做法：青菜焯水，淋上简单调料拌匀即可。"}
+            {id:54,title:"热拌青菜",image:"images/54.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:true,tag:"高纤维",ingredients:[{name:"时令青菜",amount:"250g"},{name:"生抽",amount:"少许"},{name:"香油",amount:"少许"}],desc:"清淡热拌，保留青菜营养，高纤维缓解便秘，全孕期适用。做法：青菜焯水，淋上简单调料拌匀即可。"},
+            {id:55,title:"清炒荷兰豆",image:"images/55.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"清脆高纤",ingredients:[{name:"荷兰豆",amount:"200g"},{name:"蒜末",amount:"少许"},{name:"盐",amount:"少许"}],desc:"口感清脆、膳食纤维丰富，适合孕期清淡饮食。做法：荷兰豆去筋洗净，蒜末爆香后快速翻炒调味即可。"},
+            {id:56,title:"西兰花炒牛肉",image:"images/56.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"补铁优蛋白",ingredients:[{name:"牛肉",amount:"150g"},{name:"西兰花",amount:"200g"},{name:"姜片",amount:"2片"},{name:"生抽",amount:"少许"}],desc:"牛肉补铁，西兰花富含叶酸与维生素，搭配均衡。做法：牛肉先滑炒，再与焯水西兰花同炒，少盐调味。"},
+            {id:57,title:"虾仁豆腐蛋",image:"images/57.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:false,tag:"嫩滑易消化",ingredients:[{name:"虾仁",amount:"80g"},{name:"嫩豆腐",amount:"200g"},{name:"鸡蛋",amount:"1个"},{name:"葱花",amount:"少许"}],desc:"高蛋白且口感软嫩，适合孕期晚餐补充营养。做法：虾仁炒至变色，加入豆腐和蛋液小火焖煮定型即可。"},
+            {id:58,title:"蒸红薯",image:"images/58.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"天然粗粮",ingredients:[{name:"红薯",amount:"250g"}],desc:"富含膳食纤维和复合碳水，饱腹感强。做法：红薯洗净切段，上锅蒸20分钟左右至软糯。"},
+            {id:59,title:"番茄土豆牛腩",image:"images/59.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:false,tag:"补铁暖胃",ingredients:[{name:"牛腩",amount:"220g"},{name:"番茄",amount:"2个"},{name:"土豆",amount:"1个"},{name:"姜片",amount:"2片"}],desc:"番茄酸甜开胃，牛腩补铁，土豆补充能量，适合作为孕期正餐。做法：牛腩焯水后炖软，加入番茄土豆继续炖煮至入味。"},
+            {id:60,title:"老式鸡蛋汤",image:"images/60.png",type:"all",typeName:"全孕期",meal:"dinner",mealName:"晚餐",vegetarian:true,tag:"清淡暖胃",ingredients:[{name:"鸡蛋",amount:"1个"},{name:"紫菜",amount:"少许"},{name:"香油",amount:"少许"},{name:"盐",amount:"少许"}],desc:"做法简单，清淡易吸收，适合孕期不想吃油腻时饮用。做法：水开后调味，淋入蛋液并轻轻搅散，最后滴香油。"},
+            {id:61,title:"粉蒸菜",image:"images/61.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"少油蒸制",ingredients:[{name:"时令蔬菜",amount:"250g"},{name:"蒸菜粉",amount:"30g"},{name:"蒜末",amount:"少许"}],desc:"蒸制方式少油健康，保留蔬菜原味。做法：蔬菜拌蒸菜粉，上锅蒸熟后拌少量蒜末即可。"},
+            {id:62,title:"海鲜粥",image:"images/62.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:false,tag:"鲜香主食",ingredients:[{name:"大米",amount:"60g"},{name:"虾仁",amount:"60g"},{name:"鱼片",amount:"60g"},{name:"姜丝",amount:"少许"}],desc:"粥品温和易消化，搭配海鲜可补充优质蛋白。做法：大米先熬粥底，再加入海鲜煮熟调味。"},
+            {id:63,title:"葱油发面饼",image:"images/63.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"发酵主食",ingredients:[{name:"面粉",amount:"150g"},{name:"酵母",amount:"2g"},{name:"葱花",amount:"少许"},{name:"食用油",amount:"少许"}],desc:"发酵后口感松软，适合作为早餐主食。做法：面团发酵后擀开抹葱油，平底锅小火烙熟。"},
+            {id:64,title:"肉饼",image:"images/64.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"补蛋白",ingredients:[{name:"猪肉馅",amount:"180g"},{name:"葱末",amount:"少许"},{name:"姜末",amount:"少许"},{name:"面粉",amount:"80g"}],desc:"荤素搭配可作为加餐或正餐主菜，注意少油少盐。做法：调好肉馅后包入面皮，平底锅煎熟至两面金黄。"},
+            {id:65,title:"馒头",image:"images/65.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"经典主食",ingredients:[{name:"面粉",amount:"200g"},{name:"酵母",amount:"2g"},{name:"温水",amount:"适量"}],desc:"发酵主食，口感松软，搭配牛奶或蛋类更均衡。做法：面团发酵整形后蒸15分钟即可。"},
+            {id:66,title:"蒸包",image:"images/66.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"软糯主食",ingredients:[{name:"面粉",amount:"180g"},{name:"白菜",amount:"100g"},{name:"香菇",amount:"50g"},{name:"酵母",amount:"2g"}],desc:"蒸制方式更清淡，作为早餐主食负担较小。做法：发面后包入素馅，上锅蒸熟即可。"},
+            {id:67,title:"水煎包",image:"images/67.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:false,tag:"外脆里软",ingredients:[{name:"面粉",amount:"180g"},{name:"猪肉馅",amount:"120g"},{name:"白菜",amount:"100g"},{name:"葱姜",amount:"少许"}],desc:"口感外脆内软，建议少油制作并搭配蔬菜汤。做法：包好后先煎底，再加少量水焖熟收干。"},
+            {id:68,title:"油泼面",image:"images/68.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"香辣开胃",ingredients:[{name:"手擀面",amount:"150g"},{name:"蒜末",amount:"少许"},{name:"葱花",amount:"少许"},{name:"生抽",amount:"少许"},{name:"食用油",amount:"少许"}],desc:"孕期清淡版油泼面，少辣或不辣，热油激香蒜末葱花，简单过瘾。做法：面条煮熟，铺上蒜末葱花，淋生抽后浇热油拌匀。"},
+            {id:69,title:"红薯面条",image:"images/69.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"粗粮主食",ingredients:[{name:"红薯面条",amount:"150g"},{name:"青菜",amount:"100g"},{name:"盐",amount:"少许"}],desc:"红薯面富含膳食纤维，升糖较慢，适合控制血糖的孕妈。做法：面条煮熟捞起，搭配焯水青菜，简单调味即可。"},
+            {id:70,title:"饸饹面",image:"images/70.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"筋道耐饱",ingredients:[{name:"荞麦饸饹面",amount:"150g"},{name:"牛肉片",amount:"80g"},{name:"葱花",amount:"少许"},{name:"盐",amount:"少许"}],desc:"荞麦饸饹面富含矿物质，搭配牛肉补铁，筋道耐饱。做法：面条煮熟，加入清汤和牛肉片，简单调味。"},
+            {id:71,title:"手擀面",image:"images/71.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"家常主食",ingredients:[{name:"面粉",amount:"150g"},{name:"鸡蛋",amount:"1个"},{name:"青菜",amount:"100g"}],desc:"手工制作更有嚼劲，搭配鸡蛋青菜营养均衡。做法：和面擀薄切条，煮熟后加鸡蛋青菜调味即可。"},
+            {id:72,title:"牛肉面",image:"images/72.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"补铁耐饱",ingredients:[{name:"面条",amount:"150g"},{name:"牛肉",amount:"100g"},{name:"萝卜",amount:"80g"},{name:"葱姜",amount:"少许"}],desc:"牛肉补铁，汤底鲜美，孕期清淡版少辣不放花椒。做法：牛肉炖软取汤，放入面条和萝卜煮熟调味。"},
+            {id:73,title:"青椒鸡蛋面",image:"images/73.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"快手营养",ingredients:[{name:"面条",amount:"150g"},{name:"鸡蛋",amount:"2个"},{name:"青椒",amount:"100g"},{name:"蒜末",amount:"少许"}],desc:"简单快手，青椒鸡蛋的经典搭配，营养均衡。做法：先炒青椒鸡蛋，加水煮沸下面条，调味即可。"},
+            {id:74,title:"重庆小面",image:"images/74.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"鲜香早餐",ingredients:[{name:"细面条",amount:"120g"},{name:"榨菜",amount:"少许"},{name:"芝麻酱",amount:"少许"},{name:"生抽",amount:"少许"}],desc:"孕期清淡版小面，去除辣椒保留鲜香，富有地方特色。做法：面条煮熟，加入调料拌匀，撒葱花即可。"},
+            {id:75,title:"打卤面",image:"images/75.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"浓香下饭",ingredients:[{name:"面条",amount:"150g"},{name:"猪肉片",amount:"80g"},{name:"鸡蛋",amount:"1个"},{name:"木耳",amount:"30g"},{name:"淀粉",amount:"少许"}],desc:"浓郁卤汁裹着面条，荤素搭配，营养丰富。做法：炒肉片加水，加木耳鸡蛋勾芡成卤，浇在煮熟面条上。"},
+            {id:76,title:"过油肉拌面",image:"images/76.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"补铁满足感",ingredients:[{name:"面条",amount:"150g"},{name:"猪里脊",amount:"100g"},{name:"洋葱",amount:"80g"},{name:"青椒",amount:"50g"}],desc:"过油肉嫩滑鲜香，拌入面条满足感十足，孕期清淡版少油制作。做法：里脊炒熟加蔬菜翻炒，拌入煮好的面条调味。"},
+            {id:77,title:"炒面",image:"images/77.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:false,tag:"快手主食",ingredients:[{name:"熟面条",amount:"150g"},{name:"鸡蛋",amount:"1个"},{name:"圆白菜",amount:"100g"},{name:"胡萝卜",amount:"50g"}],desc:"经典炒面，荤素搭配，快手营养。做法：面条提前煮熟放凉，炒鸡蛋蔬菜后加入面条翻炒调味。"},
+            {id:78,title:"炒方便面",image:"images/78.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:false,tag:"偶尔解馋",ingredients:[{name:"方便面饼",amount:"1块"},{name:"鸡蛋",amount:"1个"},{name:"青菜",amount:"80g"},{name:"葱花",amount:"少许"}],desc:"孕期偶尔食用，建议丢弃调料包减少盐分，搭配鸡蛋青菜更均衡。做法：面饼煮熟，加鸡蛋青菜炒匀，少盐调味即可。"},
+            {id:79,title:"桃",image:"images/79.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补钾润肠",ingredients:[{name:"桃",amount:"1个"}],desc:"富含钾和膳食纤维，有助于缓解孕期便秘，甜香多汁。"},
+            {id:80,title:"西瓜",image:"images/80.png",type:"middle",typeName:"孕中期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"消暑补水",ingredients:[{name:"西瓜",amount:"200g"}],desc:"含水量高，消暑解渴，富含番茄红素，孕中晚期适量食用（血糖高者需控量）。"},
+            {id:81,title:"樱桃",image:"images/81.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补铁补血",ingredients:[{name:"樱桃",amount:"100g"}],desc:"铁含量较高，有助于预防孕期贫血，酸甜可口。"},
+            {id:82,title:"蓝莓",image:"images/82.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"抗氧化护眼",ingredients:[{name:"蓝莓",amount:"100g"}],desc:"富含花青素，抗氧化效果好，有益眼部健康，全孕期可食用。"},
+            {id:83,title:"香蕉",image:"images/83.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"润肠补钾",ingredients:[{name:"香蕉",amount:"1根"}],desc:"富含钾和膳食纤维，有助于缓解孕期便秘和抽筋，能量补充快。"},
+            {id:84,title:"草莓",image:"images/84.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补充维C",ingredients:[{name:"草莓",amount:"150g"}],desc:"维生素C含量丰富，促进铁吸收，酸甜开胃，孕早期缓解食欲不振。"},
+            {id:85,title:"梨",image:"images/85.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"润肺止咳",ingredients:[{name:"梨",amount:"1个"}],desc:"润肺化痰，生津止渴，孕期咽干或咳嗽时可以多吃。"},
+            {id:86,title:"油桃",image:"images/86.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补铁促消化",ingredients:[{name:"油桃",amount:"1个"}],desc:"含铁量较高，有助于预防贫血，皮薄汁多，口感甜脆。"},
+            {id:87,title:"火龙果",image:"images/87.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"润肠高纤",ingredients:[{name:"火龙果",amount:"半个"}],desc:"富含膳食纤维，促进肠胃蠕动，缓解孕期便秘，低糖适合孕期食用。"},
+            {id:88,title:"李子",image:"images/88.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"开胃消食",ingredients:[{name:"李子",amount:"2个"}],desc:"酸甜开胃，助消化，孕早期食欲不振时可适量食用，不宜过多。"},
+            {id:89,title:"杏",image:"images/89.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补充胡萝卜素",ingredients:[{name:"杏",amount:"3个"}],desc:"富含胡萝卜素和维生素C，酸甜可口，孕期适量食用。"},
+            {id:90,title:"枇杷",image:"images/90.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"润肺止咳",ingredients:[{name:"枇杷",amount:"5个"}],desc:"润肺止咳，清热解暑，适合孕期嗓子不适时食用。"},
+            {id:91,title:"人参果",image:"images/91.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"低糖补硒",ingredients:[{name:"人参果",amount:"1个"}],desc:"低糖低热，含硒量较高，有助于增强免疫力，适合孕期加餐。"},
+            {id:92,title:"榴莲",image:"images/92.png",type:"late",typeName:"孕晚期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"高能补锌",ingredients:[{name:"榴莲",amount:"少量"}],desc:"热量和糖分较高，孕期少量食用，可补充锌和叶酸，血糖偏高者慎食。"},
+            {id:93,title:"芒果",image:"images/93.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补充维A",ingredients:[{name:"芒果",amount:"半个"}],desc:"富含胡萝卜素，有助于胎儿视力发育，过敏体质需谨慎食用。"},
+            {id:94,title:"葡萄",image:"images/94.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补铁抗氧化",ingredients:[{name:"葡萄",amount:"150g"}],desc:"含铁量较高，富含多酚类抗氧化物，促进胎儿大脑发育。"},
+            {id:95,title:"红提",image:"images/95.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补血抗氧化",ingredients:[{name:"红提",amount:"150g"}],desc:"皮薄肉厚、甜度适中，含花青素和铁质，孕期加餐佳选。"},
+            {id:96,title:"阳光玫瑰青提",image:"images/96.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"高糖少量食",ingredients:[{name:"阳光玫瑰青提",amount:"100g"}],desc:"香甜多汁，但糖分较高，孕期适量食用，血糖偏高者需控量。"},
+            {id:97,title:"哈密瓜",image:"images/97.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补水消暑",ingredients:[{name:"哈密瓜",amount:"150g"}],desc:"水分充足，补充电解质，夏季孕期加餐消暑佳品，血糖偏高者适量。"},
+            {id:98,title:"荔枝",image:"images/98.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补充维C",ingredients:[{name:"荔枝",amount:"6个"}],desc:"富含维生素C，味道香甜，但性热糖分高，孕期每次不超过10颗，不宜空腹食用。"},
+            {id:99,title:"奇异果",image:"images/99.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"叶酸维C双补",ingredients:[{name:"奇异果",amount:"1个"}],desc:"叶酸和维生素C含量极高，是孕期补充叶酸的优质水果来源，酸甜适口。"}
         ];
 
         const days = ["周一", "周二", "周三", "周四", "周五"];
@@ -850,17 +896,20 @@
         };
 
         function getVegType(recipe) {
-            if(!recipe.vegetarian) return 'none';
             const title = recipe.title;
             const text = `${title} ${recipe.ingredients.map(ing => ing.name).join(' ')}`;
+
+            // 面条优先识别（含"面"但排除发面饼、面包）
+            if(/面/.test(title) && !/发面|面包/.test(title)) return 'noodle';
+            // 主食/粥支持荤素共同分类
+            if(/粥|馄饨|饭|三明治|馒头|包|发面饼|饼|蒸红薯|老式鸡蛋汤/.test(title)) return 'staple';
+            if(!recipe.vegetarian) return 'none';
 
             // 用户指定优先分类（优先级最高）
             if(/全麦面包\+牛奶|水煮蛋|蒸鸡蛋羹/.test(title)) return 'vegetarian';
             if(/猕猴桃酸奶|香蕉奶昔/.test(title)) return 'drink';
-            // 判断主食/粥
-            if(/粥|馄饨|面条|饭|三明治/.test(title)) return 'staple';
             // 先判断水果，避免“猕猴桃酸奶”被优先识别成饮品
-            if(/苹果|猕猴桃|香蕉|水果/.test(text)) return 'fruit';
+            if(/苹果|猕猴桃|香蕉|水果|桃|西瓜|樱桃|蓝莓|草莓|梨|油桃|火龙果|李子|杏|枇杷|人参果|榴莲|芒果|葡萄|红提|青提|哈密瓜|荔枝|奇异果/.test(text)) return 'fruit';
             if(/豆浆|牛奶|奶昔|饮|水|酸奶|蜂蜜水/.test(text)) return 'drink';
             return 'vegetarian';
         }
@@ -877,7 +926,7 @@
             if(/羊/.test(text)) return 'mutton';
             if(/虾|虾皮/.test(text)) return 'shrimp';
             if(/鲈|鲫|草鱼|鱼/.test(text)) return 'fish';
-            if(/猪|里脊|五花|排骨|腊肉|猪肝|猪肉|肉馅|瘦肉/.test(text)) return 'pork';
+            if(/猪|里脊|五花|排骨|腊肉|猪肝|猪肉|肉馅|瘦肉|肉饼/.test(text)) return 'pork';
             if(/鸡/.test(text) && !/鸡蛋/.test(text)) return 'chicken';
             return 'other';
         }
@@ -941,13 +990,15 @@
                 if(currentFilters.type === 'vegetarian') {
                     matchType = item.vegetarian && getVegType(item) === 'vegetarian';
                 } else if(currentFilters.type === 'staple') {
-                    matchType = item.vegetarian && getVegType(item) === 'staple';
+                    matchType = getVegType(item) === 'staple';
+                } else if(currentFilters.type === 'noodle') {
+                    matchType = getVegType(item) === 'noodle';
                 } else if(currentFilters.type === 'drink') {
                     matchType = item.vegetarian && getVegType(item) === 'drink';
                 } else if(currentFilters.type === 'fruit') {
                     matchType = item.vegetarian && getVegType(item) === 'fruit';
                 } else if(currentFilters.type === 'meat') {
-                    matchType = !item.vegetarian;
+                    matchType = !item.vegetarian && getVegType(item) !== 'staple' && getVegType(item) !== 'noodle';
                 }
                 let matchMeal = currentFilters.meal === 'all' || item.meal === currentFilters.meal;
                 let matchMeatSource = currentFilters.meatSource === 'all' || (!item.vegetarian && getMeatSource(item) === currentFilters.meatSource);
@@ -957,7 +1008,7 @@
                 const card = document.createElement('div');
                 card.className = 'recipe-card';
                 const vegType = getVegType(item);
-                const typeLabel = item.vegetarian ? (vegType === 'staple' ? '🍚 主食/粥' : (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜'))) : '🍖 荤菜';
+                const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '🍚 主食/粥' : (item.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜'));
                 const meatSourceTag = !item.vegetarian ? `<span class="recipe-tag">${meatSourceNames[getMeatSource(item)]}</span>` : '';
                 card.innerHTML = `<img src="${item.image}" alt="${item.title}" class="recipe-image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="img-placeholder">🍽️</div><div class="recipe-info"><div class="recipe-title">${item.title}</div><span class="recipe-tag">${item.typeName}</span><span class="recipe-tag">${typeLabel}</span>${meatSourceTag}<span class="recipe-tag">${item.tag}</span></div>`;
                 card.onclick = () => openModal(item);
@@ -973,7 +1024,7 @@
             document.getElementById('modalTitle').innerText = recipe.title;
             document.getElementById('modalType').innerText = recipe.typeName;
             const vegType = getVegType(recipe);
-            const typeLabel = recipe.vegetarian ? (vegType === 'staple' ? '🍚 主食/粥' : (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜'))) : '🍖 荤菜';
+            const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '🍚 主食/粥' : (recipe.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜'));
             const meatSourceText = recipe.vegetarian ? '' : `（${meatSourceNames[getMeatSource(recipe)]}）`;
             document.getElementById('modalCategory').innerText = `${typeLabel}${meatSourceText}`;
             document.getElementById('modalMeal').innerText = recipe.mealName;
