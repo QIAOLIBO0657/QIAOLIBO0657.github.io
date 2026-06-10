@@ -547,7 +547,8 @@
                 <div class="category" id="typeCategory">
                     <button class="active" data-filter-type="type" data-value="all">全部</button>
                     <button data-filter-type="type" data-value="vegetarian">素菜</button>
-                    <button data-filter-type="type" data-value="staple">主食/粥</button>
+                    <button data-filter-type="type" data-value="staple">主食</button>
+                    <button data-filter-type="type" data-value="porridge">粥</button>
                     <button data-filter-type="type" data-value="noodle">面条</button>
                     <button data-filter-type="type" data-value="drink">饮品</button>
                     <button data-filter-type="type" data-value="fruit">水果</button>
@@ -744,7 +745,9 @@
             {id:96,title:"阳光玫瑰青提",image:"images/96.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"高糖少量食",ingredients:[{name:"阳光玫瑰青提",amount:"100g"}],desc:"香甜多汁，但糖分较高，孕期适量食用，血糖偏高者需控量。"},
             {id:97,title:"哈密瓜",image:"images/97.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补水消暑",ingredients:[{name:"哈密瓜",amount:"150g"}],desc:"水分充足，补充电解质，夏季孕期加餐消暑佳品，血糖偏高者适量。"},
             {id:98,title:"荔枝",image:"images/98.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"补充维C",ingredients:[{name:"荔枝",amount:"6个"}],desc:"富含维生素C，味道香甜，但性热糖分高，孕期每次不超过10颗，不宜空腹食用。"},
-            {id:99,title:"奇异果",image:"images/99.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"叶酸维C双补",ingredients:[{name:"奇异果",amount:"1个"}],desc:"叶酸和维生素C含量极高，是孕期补充叶酸的优质水果来源，酸甜适口。"}
+            {id:99,title:"奇异果",image:"images/99.png",type:"all",typeName:"全孕期",meal:"snack",mealName:"加餐",vegetarian:true,tag:"叶酸维C双补",ingredients:[{name:"奇异果",amount:"1个"}],desc:"叶酸和维生素C含量极高，是孕期补充叶酸的优质水果来源，酸甜适口。"},
+            {id:100,title:"白米饭",image:"images/100.png",type:"all",typeName:"全孕期",meal:"lunch",mealName:"午餐",vegetarian:true,tag:"经典主食",ingredients:[{name:"大米",amount:"100g"}],desc:"最基础的主食，提供充足碳水化合物，搭配菜肴营养均衡，全孕期适用。做法：大米淘洗后加适量水，电饭锅蒸熟即可。"},
+            {id:101,title:"花卷",image:"images/101.png",type:"all",typeName:"全孕期",meal:"breakfast",mealName:"早餐",vegetarian:true,tag:"发酵软糯",ingredients:[{name:"面粉",amount:"200g"},{name:"酵母",amount:"2g"},{name:"葱花",amount:"少许"},{name:"食用油",amount:"少许"}],desc:"发酵面食，口感松软，层次丰富，作为早餐主食搭配豆浆或粥更均衡。做法：面团发酵后抹葱油卷起，整形后上锅蒸15分钟即可。"}
         ];
 
         const days = ["周一", "周二", "周三", "周四", "周五"];
@@ -901,8 +904,10 @@
 
             // 面条优先识别（含"面"但排除发面饼、面包）
             if(/面/.test(title) && !/发面|面包/.test(title)) return 'noodle';
-            // 主食/粥支持荤素共同分类
-            if(/粥|馄饨|饭|三明治|馒头|包|发面饼|饼|蒸红薯|老式鸡蛋汤/.test(title)) return 'staple';
+            // 粥类
+            if(/粥|老式鸡蛋汤/.test(title)) return 'porridge';
+            // 主食支持荤素共同分类
+            if(/馄饨|饭|三明治|馒头|包|发面饼|饼|蒸红薯/.test(title)) return 'staple';
             if(!recipe.vegetarian) return 'none';
 
             // 用户指定优先分类（优先级最高）
@@ -991,6 +996,8 @@
                     matchType = item.vegetarian && getVegType(item) === 'vegetarian';
                 } else if(currentFilters.type === 'staple') {
                     matchType = getVegType(item) === 'staple';
+                } else if(currentFilters.type === 'porridge') {
+                    matchType = getVegType(item) === 'porridge';
                 } else if(currentFilters.type === 'noodle') {
                     matchType = getVegType(item) === 'noodle';
                 } else if(currentFilters.type === 'drink') {
@@ -998,7 +1005,7 @@
                 } else if(currentFilters.type === 'fruit') {
                     matchType = item.vegetarian && getVegType(item) === 'fruit';
                 } else if(currentFilters.type === 'meat') {
-                    matchType = !item.vegetarian && getVegType(item) !== 'staple' && getVegType(item) !== 'noodle';
+                    matchType = !item.vegetarian && getVegType(item) !== 'staple' && getVegType(item) !== 'porridge' && getVegType(item) !== 'noodle';
                 }
                 let matchMeal = currentFilters.meal === 'all' || item.meal === currentFilters.meal;
                 let matchMeatSource = currentFilters.meatSource === 'all' || (!item.vegetarian && getMeatSource(item) === currentFilters.meatSource);
@@ -1008,7 +1015,7 @@
                 const card = document.createElement('div');
                 card.className = 'recipe-card';
                 const vegType = getVegType(item);
-                const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '🍚 主食/粥' : (item.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜'));
+                const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '� 主食' : (vegType === 'porridge' ? '🥣 粥' : (item.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜')));
                 const meatSourceTag = !item.vegetarian ? `<span class="recipe-tag">${meatSourceNames[getMeatSource(item)]}</span>` : '';
                 card.innerHTML = `<img src="${item.image}" alt="${item.title}" class="recipe-image" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="img-placeholder">🍽️</div><div class="recipe-info"><div class="recipe-title">${item.title}</div><span class="recipe-tag">${item.typeName}</span><span class="recipe-tag">${typeLabel}</span>${meatSourceTag}<span class="recipe-tag">${item.tag}</span></div>`;
                 card.onclick = () => openModal(item);
@@ -1024,7 +1031,7 @@
             document.getElementById('modalTitle').innerText = recipe.title;
             document.getElementById('modalType').innerText = recipe.typeName;
             const vegType = getVegType(recipe);
-            const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '🍚 主食/粥' : (recipe.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜'));
+            const typeLabel = vegType === 'noodle' ? '🍜 面条' : (vegType === 'staple' ? '� 主食' : (vegType === 'porridge' ? '🥣 粥' : (recipe.vegetarian ? (vegType === 'drink' ? '🥤 饮品' : (vegType === 'fruit' ? '🍎 水果' : '🥬 素菜')) : '🍖 荤菜')));
             const meatSourceText = recipe.vegetarian ? '' : `（${meatSourceNames[getMeatSource(recipe)]}）`;
             document.getElementById('modalCategory').innerText = `${typeLabel}${meatSourceText}`;
             document.getElementById('modalMeal').innerText = recipe.mealName;
