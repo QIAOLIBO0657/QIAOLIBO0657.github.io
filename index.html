@@ -32,6 +32,29 @@
         .header h1 {
             font-size: 22px;
             color: #d81b60;
+            margin: 0;
+        }
+
+        .filter-toggle-btn {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #d81b60;
+            color: white;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 95;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+
+        .filter-toggle-btn:active {
+            transform: scale(0.95);
         }
 
         .category {
@@ -83,6 +106,79 @@
             position: relative;
         }
 
+        .recipe-names-panel {
+            width: 160px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex-shrink: 0;
+            max-height: calc(100vh - 86px);
+        }
+
+        .recipe-names-header {
+            padding: 10px;
+            background: #f8bbd0;
+            color: #d81b60;
+            font-weight: bold;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .recipe-names-count {
+            background: #d81b60;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 11px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .recipe-names-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+            font-size: 12px;
+        }
+
+        .recipe-name-item {
+            padding: 6px 8px;
+            margin-bottom: 4px;
+            background: #fce4ec;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #333;
+            border-left: 3px solid transparent;
+            word-break: break-word;
+        }
+
+        .recipe-name-item:hover {
+            background: #f8bbd0;
+            border-left-color: #d81b60;
+            transform: translateX(2px);
+        }
+
+        .recipe-names-list::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .recipe-names-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .recipe-names-list::-webkit-scrollbar-thumb {
+            background: #d81b60;
+            border-radius: 10px;
+        }
+
         .recipe-list {
             flex: 1;
             display: grid;
@@ -125,16 +221,125 @@
         }
 
         @media (max-width: 768px) {
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .recipe-names-panel {
+                display: none;
+                width: 140px;
+                position: fixed;
+                right: 8px;
+                top: 72px;
+                max-height: 50vh;
+                border-radius: 4px;
+                z-index: 92;
+            }
+
+            .recipe-names-panel.show {
+                display: flex;
+            }
+
             .filter-container {
-                width: 132px;
-                right: 6px;
-                top: 70px;
-                max-height: calc(100vh - 84px);
+                width: 140px;
+                right: 8px;
+                top: 72px;
+                max-height: 50vh;
                 padding: 8px;
+                display: none;
+            }
+
+            .filter-container.show {
+                display: block;
+            }
+
+            .filter-toggle-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .recipe-list {
-                margin-right: 142px;
+                margin-right: 0;
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+
+            .recipe-page {
+                gap: 8px;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 10px 15px;
+            }
+
+            .header h1 {
+                font-size: 16px;
+            }
+
+            .recipe-list {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            }
+
+            .recipe-card {
+                border-radius: 6px;
+            }
+
+            .recipe-image {
+                height: 80px;
+            }
+
+            .recipe-info {
+                padding: 4px;
+            }
+
+            .recipe-title {
+                font-size: 11px;
+                margin-bottom: 2px;
+            }
+
+            .recipe-tag {
+                padding: 1px 3px;
+                font-size: 9px;
+                margin-right: 2px;
+            }
+
+            .recipe-names-panel {
+                width: 120px;
+                max-height: 45vh;
+            }
+
+            .recipe-names-header {
+                padding: 8px;
+                font-size: 12px;
+            }
+
+            .recipe-names-list {
+                padding: 6px;
+            }
+
+            .recipe-name-item {
+                padding: 4px 6px;
+                margin-bottom: 3px;
+                font-size: 11px;
+            }
+
+            .filter-container {
+                width: 120px;
+                max-height: 45vh;
+            }
+
+            .filter-label {
+                font-size: 11px;
+                margin-bottom: 5px;
+            }
+
+            .category button {
+                padding: 4px 8px;
+                font-size: 11px;
+                margin-bottom: 3px;
             }
         }
 
@@ -531,6 +736,13 @@
     </div>
 
     <div class="recipe-page" id="recipePage">
+        <div class="recipe-names-panel" id="recipeNamesPanel">
+            <div class="recipe-names-header">
+                <span>📋 菜名速查</span>
+                <span class="recipe-names-count" id="recipeNamesCount">0</span>
+            </div>
+            <div class="recipe-names-list" id="recipeNamesList"></div>
+        </div>
         <div class="recipe-list" id="recipeList"></div>
         <div class="filter-container">
             <div class="filter-section">
@@ -637,6 +849,8 @@
             </div>
         </div>
     </div>
+
+    <button class="filter-toggle-btn" id="filterToggleBtn" title="切换筛选器">⚙️</button>
 
     <div class="tab-bar">
         <div class="tab-item active" data-page="recipe"><i>🍳</i><span>食谱</span></div>
@@ -1046,6 +1260,32 @@
                 card.onclick = () => openModal(item);
                 recipeList.appendChild(card);
             });
+            updateRecipeNamesList(filterData);
+        }
+
+        function updateRecipeNamesList(filterData) {
+            const namesList = document.getElementById('recipeNamesList');
+            const namesCount = document.getElementById('recipeNamesCount');
+            namesList.innerHTML = '';
+            namesCount.innerText = filterData.length;
+            
+            filterData.forEach((item, index) => {
+                const nameItem = document.createElement('div');
+                nameItem.className = 'recipe-name-item';
+                nameItem.innerText = item.title;
+                nameItem.onclick = (e) => {
+                    e.stopPropagation();
+                    const cards = document.querySelectorAll('.recipe-card');
+                    if(cards[index]) {
+                        cards[index].scrollIntoView({behavior: 'smooth', block: 'center'});
+                        cards[index].style.boxShadow = '0 0 12px rgba(216, 27, 96, 0.5)';
+                        setTimeout(() => {
+                            cards[index].style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+                        }, 1500);
+                    }
+                };
+                namesList.appendChild(nameItem);
+            });
         }
 
         function openModal(recipe) {
@@ -1263,6 +1503,60 @@
         tabItems.forEach(tab=>{tab.onclick=()=>{tabItems.forEach(t=>t.classList.remove('active'));tab.classList.add('active');const page=tab.dataset.page;recipePage.style.display=page==='recipe'?'block':'none';orderPage.style.display=page==='order'?'block':'none';minePage.style.display=page==='mine'?'block':'none';};});
         notifyWechatBtn.onclick = () => notifyWechat();
         clearAllBtn.onclick=()=>{if(confirm('确定要清空本周所有计划吗？此操作不可恢复！')){weeklyPlanData=getDefaultWeeklyPlan();storageLayer.saveWeeklyPlanData(weeklyPlanData);updateOrderBadge();renderWeeklyPlan();alert('本周计划已清空！');}};
+        
+        // 移动端筛选器切换功能
+        const filterToggleBtn = document.getElementById('filterToggleBtn');
+        const filterContainer = document.querySelector('.filter-container');
+        const recipeNamesPanel = document.getElementById('recipeNamesPanel');
+        let filterPanelOpen = false;
+        let namesListMode = false;
+        
+        filterToggleBtn.onclick = () => {
+            filterPanelOpen = !filterPanelOpen;
+            if(filterPanelOpen) {
+                // 切换显示筛选器还是菜名列表
+                if(namesListMode) {
+                    namesListMode = false;
+                    recipeNamesPanel.classList.remove('show');
+                    filterContainer.classList.add('show');
+                    filterToggleBtn.innerText = '📋';
+                } else {
+                    namesListMode = true;
+                    filterContainer.classList.remove('show');
+                    recipeNamesPanel.classList.add('show');
+                    filterToggleBtn.innerText = '⚙️';
+                }
+            } else {
+                filterContainer.classList.remove('show');
+                recipeNamesPanel.classList.remove('show');
+                filterToggleBtn.innerText = '⚙️';
+                namesListMode = false;
+            }
+        };
+        
+        // 点击筛选器按钮时自动关闭面板
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(window.innerWidth <= 768) {
+                    filterContainer.classList.remove('show');
+                    recipeNamesPanel.classList.remove('show');
+                    filterPanelOpen = false;
+                    namesListMode = false;
+                    filterToggleBtn.innerText = '⚙️';
+                }
+            });
+        });
+        
+        // 点击菜名时关闭列表
+        document.addEventListener('click', (e) => {
+            if(window.innerWidth <= 768 && e.target.closest('.recipe-name-item')) {
+                recipeNamesPanel.classList.remove('show');
+                filterPanelOpen = false;
+                namesListMode = false;
+                filterToggleBtn.innerText = '⚙️';
+            }
+        });
+        
         init();
     </script>
 </body>
