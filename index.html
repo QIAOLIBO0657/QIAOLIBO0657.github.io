@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>孕期营养食谱 - 周计划点餐版</title>
     <style>
+        :root {
+            --right-panel-width: 180px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -33,28 +37,6 @@
             font-size: 22px;
             color: #d81b60;
             margin: 0;
-        }
-
-        .filter-toggle-btn {
-            display: none;
-            position: fixed;
-            bottom: 80px;
-            right: 15px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: #d81b60;
-            color: white;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            z-index: 95;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: 0.3s;
-        }
-
-        .filter-toggle-btn:active {
-            transform: scale(0.95);
         }
 
         .category {
@@ -107,7 +89,11 @@
         }
 
         .recipe-names-panel {
-            width: 160px;
+            width: var(--right-panel-width);
+            position: fixed;
+            right: 8px;
+            top: calc(72px + ((100vh - 160px) / 2) + 8px);
+            height: calc((100vh - 160px) / 2 - 8px);
             background: white;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -115,7 +101,7 @@
             flex-direction: column;
             overflow: hidden;
             flex-shrink: 0;
-            max-height: calc(100vh - 86px);
+            z-index: 89;
         }
 
         .recipe-names-header {
@@ -185,21 +171,70 @@
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 8px;
             min-height: 200px;
-            margin-right: 192px;
+            margin-right: calc(var(--right-panel-width) + 12px);
         }
 
         .filter-container {
-            width: 180px;
+            width: var(--right-panel-width);
             position: fixed;
             right: 8px;
             top: 72px;
-            max-height: calc(100vh - 86px);
+            height: calc((100vh - 160px) / 2);
             overflow-y: auto;
             background: white;
             padding: 10px;
             border-radius: 8px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.08);
             z-index: 90;
+        }
+
+        .right-panel-resize-handle {
+            position: fixed;
+            right: calc(var(--right-panel-width) + 8px);
+            top: 72px;
+            height: calc(100vh - 160px);
+            width: 10px;
+            cursor: ew-resize;
+            z-index: 93;
+            background: transparent;
+        }
+
+        .right-panel-resize-handle::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 80px;
+            width: 3px;
+            border-radius: 4px;
+            background: #d81b60;
+            opacity: 0.35;
+            transition: opacity 0.2s;
+        }
+
+        .right-panel-resize-handle:hover::before,
+        .right-panel-resize-handle.dragging::before {
+            opacity: 0.8;
+        }
+
+        .reset-panel-width-btn {
+            position: fixed;
+            right: 8px;
+            top: calc(100vh - 84px);
+            border: none;
+            border-radius: 14px;
+            padding: 6px 10px;
+            font-size: 11px;
+            color: #d81b60;
+            background: #fce4ec;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            cursor: pointer;
+            z-index: 94;
+        }
+
+        .reset-panel-width-btn:hover {
+            background: #f8bbd0;
         }
 
         .filter-container::-webkit-scrollbar {
@@ -226,41 +261,35 @@
             }
 
             .recipe-names-panel {
-                display: none;
-                width: 140px;
-                position: fixed;
-                right: 8px;
-                top: 72px;
-                max-height: 50vh;
+                right: 6px;
+                top: calc(70px + ((100vh - 150px) / 2) + 6px);
+                height: calc((100vh - 150px) / 2 - 6px);
                 border-radius: 4px;
                 z-index: 92;
             }
 
-            .recipe-names-panel.show {
-                display: flex;
-            }
-
             .filter-container {
-                width: 140px;
-                right: 8px;
-                top: 72px;
-                max-height: 50vh;
+                right: 6px;
+                top: 70px;
+                height: calc((100vh - 150px) / 2);
                 padding: 8px;
-                display: none;
             }
 
-            .filter-container.show {
-                display: block;
+            .right-panel-resize-handle {
+                right: calc(var(--right-panel-width) + 6px);
+                top: 70px;
+                height: calc(100vh - 150px);
             }
 
-            .filter-toggle-btn {
-                display: flex;
-                align-items: center;
-                justify-content: center;
+            .reset-panel-width-btn {
+                right: 6px;
+                top: calc(100vh - 80px);
+                padding: 5px 8px;
+                font-size: 10px;
             }
 
             .recipe-list {
-                margin-right: 0;
+                margin-right: calc(var(--right-panel-width) + 10px);
                 grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
 
@@ -281,6 +310,7 @@
 
             .recipe-list {
                 grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                margin-right: calc(var(--right-panel-width) + 8px);
             }
 
             .recipe-card {
@@ -307,8 +337,9 @@
             }
 
             .recipe-names-panel {
-                width: 120px;
-                max-height: 45vh;
+                right: 5px;
+                top: calc(64px + ((100vh - 138px) / 2) + 5px);
+                height: calc((100vh - 138px) / 2 - 5px);
             }
 
             .recipe-names-header {
@@ -327,8 +358,20 @@
             }
 
             .filter-container {
-                width: 120px;
-                max-height: 45vh;
+                right: 5px;
+                top: 64px;
+                height: calc((100vh - 138px) / 2);
+            }
+
+            .right-panel-resize-handle {
+                right: calc(var(--right-panel-width) + 5px);
+                top: 64px;
+                height: calc(100vh - 138px);
+            }
+
+            .reset-panel-width-btn {
+                right: 5px;
+                top: calc(100vh - 78px);
             }
 
             .filter-label {
@@ -744,6 +787,8 @@
             <div class="recipe-names-list" id="recipeNamesList"></div>
         </div>
         <div class="recipe-list" id="recipeList"></div>
+        <div class="right-panel-resize-handle" id="rightPanelResizeHandle" title="拖动调整右侧面板宽度"></div>
+        <button class="reset-panel-width-btn" id="resetPanelWidthBtn" title="恢复默认宽度">恢复宽度</button>
         <div class="filter-container">
             <div class="filter-section">
                 <div class="filter-label">🤰 孕期阶段</div>
@@ -849,8 +894,6 @@
             </div>
         </div>
     </div>
-
-    <button class="filter-toggle-btn" id="filterToggleBtn" title="切换筛选器">⚙️</button>
 
     <div class="tab-bar">
         <div class="tab-item active" data-page="recipe"><i>🍳</i><span>食谱</span></div>
@@ -1008,6 +1051,98 @@
         const mealSelector = document.getElementById('mealSelector');
         const clearAllBtn = document.getElementById('clearAllBtn');
         const notifyWechatBtn = document.getElementById('notifyWechatBtn');
+        const rightPanelResizeHandle = document.getElementById('rightPanelResizeHandle');
+        const resetPanelWidthBtn = document.getElementById('resetPanelWidthBtn');
+
+        const RIGHT_PANEL_WIDTH_KEY = 'rightPanelWidth';
+
+        function getRightPanelBounds() {
+            const vw = window.innerWidth;
+            if(vw <= 480) {
+                return { min: 96, max: Math.min(150, Math.floor(vw * 0.42)) };
+            }
+            if(vw <= 768) {
+                return { min: 108, max: Math.min(190, Math.floor(vw * 0.45)) };
+            }
+            return { min: 140, max: Math.min(300, Math.floor(vw * 0.4)) };
+        }
+
+        function clampRightPanelWidth(width) {
+            const { min, max } = getRightPanelBounds();
+            return Math.max(min, Math.min(max, width));
+        }
+
+        function setRightPanelWidth(width, persist = true) {
+            const clampedWidth = clampRightPanelWidth(width);
+            document.documentElement.style.setProperty('--right-panel-width', `${clampedWidth}px`);
+            if(persist) {
+                localStorage.setItem(RIGHT_PANEL_WIDTH_KEY, String(clampedWidth));
+            }
+        }
+
+        function initRightPanelWidth() {
+            const storedWidth = parseInt(localStorage.getItem(RIGHT_PANEL_WIDTH_KEY), 10);
+            if(Number.isFinite(storedWidth)) {
+                setRightPanelWidth(storedWidth, false);
+                return;
+            }
+            const defaultWidth = getDefaultRightPanelWidth();
+            setRightPanelWidth(defaultWidth, false);
+        }
+
+        function getDefaultRightPanelWidth() {
+            return window.innerWidth <= 480 ? 110 : (window.innerWidth <= 768 ? 132 : 180);
+        }
+
+        function resetRightPanelWidth() {
+            const defaultWidth = getDefaultRightPanelWidth();
+            setRightPanelWidth(defaultWidth, true);
+        }
+
+        function initRightPanelResizer() {
+            let isDragging = false;
+
+            const onPointerMove = (event) => {
+                if(!isDragging) return;
+                const rightOffset = window.innerWidth <= 480 ? 5 : (window.innerWidth <= 768 ? 6 : 8);
+                const nextWidth = window.innerWidth - event.clientX - rightOffset;
+                setRightPanelWidth(nextWidth);
+            };
+
+            const stopDragging = () => {
+                if(!isDragging) return;
+                isDragging = false;
+                rightPanelResizeHandle.classList.remove('dragging');
+                document.body.style.userSelect = '';
+            };
+
+            rightPanelResizeHandle.addEventListener('pointerdown', (event) => {
+                isDragging = true;
+                rightPanelResizeHandle.classList.add('dragging');
+                document.body.style.userSelect = 'none';
+                rightPanelResizeHandle.setPointerCapture(event.pointerId);
+            });
+
+            rightPanelResizeHandle.addEventListener('dblclick', () => {
+                resetRightPanelWidth();
+            });
+
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', stopDragging);
+            window.addEventListener('pointercancel', stopDragging);
+
+            window.addEventListener('resize', () => {
+                const computed = getComputedStyle(document.documentElement).getPropertyValue('--right-panel-width').trim();
+                const current = parseInt(computed, 10);
+                if(Number.isFinite(current)) {
+                    setRightPanelWidth(current, false);
+                }
+            });
+
+            resetPanelWidthBtn.onclick = () => {
+                resetRightPanelWidth();
+            };
+        }
 
         // Cloud sync config (fill these values after creating a Supabase project)
         const SUPABASE_URL = 'https://legzstvxcaycchxbdrjp.supabase.co';
@@ -1504,59 +1639,8 @@
         notifyWechatBtn.onclick = () => notifyWechat();
         clearAllBtn.onclick=()=>{if(confirm('确定要清空本周所有计划吗？此操作不可恢复！')){weeklyPlanData=getDefaultWeeklyPlan();storageLayer.saveWeeklyPlanData(weeklyPlanData);updateOrderBadge();renderWeeklyPlan();alert('本周计划已清空！');}};
         
-        // 移动端筛选器切换功能
-        const filterToggleBtn = document.getElementById('filterToggleBtn');
-        const filterContainer = document.querySelector('.filter-container');
-        const recipeNamesPanel = document.getElementById('recipeNamesPanel');
-        let filterPanelOpen = false;
-        let namesListMode = false;
-        
-        filterToggleBtn.onclick = () => {
-            filterPanelOpen = !filterPanelOpen;
-            if(filterPanelOpen) {
-                // 切换显示筛选器还是菜名列表
-                if(namesListMode) {
-                    namesListMode = false;
-                    recipeNamesPanel.classList.remove('show');
-                    filterContainer.classList.add('show');
-                    filterToggleBtn.innerText = '📋';
-                } else {
-                    namesListMode = true;
-                    filterContainer.classList.remove('show');
-                    recipeNamesPanel.classList.add('show');
-                    filterToggleBtn.innerText = '⚙️';
-                }
-            } else {
-                filterContainer.classList.remove('show');
-                recipeNamesPanel.classList.remove('show');
-                filterToggleBtn.innerText = '⚙️';
-                namesListMode = false;
-            }
-        };
-        
-        // 点击筛选器按钮时自动关闭面板
-        categoryBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if(window.innerWidth <= 768) {
-                    filterContainer.classList.remove('show');
-                    recipeNamesPanel.classList.remove('show');
-                    filterPanelOpen = false;
-                    namesListMode = false;
-                    filterToggleBtn.innerText = '⚙️';
-                }
-            });
-        });
-        
-        // 点击菜名时关闭列表
-        document.addEventListener('click', (e) => {
-            if(window.innerWidth <= 768 && e.target.closest('.recipe-name-item')) {
-                recipeNamesPanel.classList.remove('show');
-                filterPanelOpen = false;
-                namesListMode = false;
-                filterToggleBtn.innerText = '⚙️';
-            }
-        });
-        
+        initRightPanelWidth();
+        initRightPanelResizer();
         init();
     </script>
 </body>
